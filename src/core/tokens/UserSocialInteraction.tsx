@@ -267,6 +267,10 @@ const UserSocialInteraction: FC <UserSocialInteractionProps> = ({ token }) => {
           if (updateError) {
             console.error(updateError);
           }
+          send_webhook(
+            alert_new_token_like(connected_address, token.information.ticker, (comments && comments.length ? (comments.length + 1).toString() : "1")),
+            "token_updates"
+          );
           success_toast('New liker added to comment! Comment likes: ' + updated_likers.length.toString());
           fetch_token_comments(token.slug);
         }
