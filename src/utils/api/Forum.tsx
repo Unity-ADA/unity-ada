@@ -2,18 +2,14 @@
 import { forum_comment, project_comment, project_likes } from "../Interfaces";
 import { supabase } from "./supabase";
 
-/**
- * @fetch_project_interactions
- * @delete_project_comment
- */
 export const fetch_project_interactions = async (project_slug: string) => {
   const { data: c_data, error: c_error } = await supabase
-    .from<"Project Comments", project_comment>('Project Comments')
+    .from('Project Comments')
     .select('*')
     .eq('project_slug', project_slug)
 
   const { data: l_data, error: l_error } = await supabase
-    .from<"Project Likes", project_likes>('Project Likes')
+    .from('Project Likes')
     .select('*')
     .eq('project_slug', project_slug)
     .single();
@@ -26,7 +22,7 @@ export const fetch_project_interactions = async (project_slug: string) => {
 
 export const delete_project_comment = async (comment_id: string) => {
   const { error } = await supabase
-  .  from<"Project Comments", project_comment>('Project Comments')
+  .  from('Project Comments')
     .delete()
     .eq('id', comment_id);
   
@@ -37,7 +33,7 @@ export const delete_project_comment = async (comment_id: string) => {
 
 export const add_project_like = async (project_slug: string, user_address: string) => {
   const { data: l_data, error: l_error } = await supabase
-    .from<"Project Likes", project_likes>('Project Likes')
+    .from('Project Likes')
     .select('*')
     .eq('project_slug', project_slug)
     .single();
@@ -47,7 +43,7 @@ export const add_project_like = async (project_slug: string, user_address: strin
   const updatedLikers = token_likers ? [...token_likers.likers, user_address] : [user_address];
 
   const { data, error: selectError } = await supabase
-    .from<"Project Likes", project_likes>('Project Likes')
+    .from('Project Likes')
     .select('*')
     .eq('project_slug', project_slug)
     .single();
@@ -55,8 +51,7 @@ export const add_project_like = async (project_slug: string, user_address: strin
   let updateError;
   if (data) {
     const { error } = await supabase
-      .from<"Project Likes", project_likes>('Project Likes')
-      //@ts-ignore
+      .from('Project Likes')
       .update({ likers: updatedLikers })
       .eq('project_slug', project_slug)
       .single();
@@ -64,8 +59,7 @@ export const add_project_like = async (project_slug: string, user_address: strin
     updateError = error;
   } else {
     const { error } = await supabase
-      .from<"Project Likes", project_likes>('Project Likes')
-      //@ts-ignore
+      .from('Project Likes')
       .insert( {project_slug: info.slug, likers: updatedLikers} );
 
     updateError = error;
@@ -79,9 +73,7 @@ export const add_project_like = async (project_slug: string, user_address: strin
 export const add_comment_like = async (comment_id: number, is_project: boolean, likers: string[]) => {
   if (is_project) {
     const { error: updateError } = await supabase
-      .from<"Project Comments", project_comment>('Project Comments')
-      /** @TODO breaking the law */
-      // @ts-ignore
+      .from('Project Comments')
       .update({ likers: likers }) 
       .eq('id', comment_id)
       .single();
@@ -91,9 +83,7 @@ export const add_comment_like = async (comment_id: number, is_project: boolean, 
     }
   } else {
     const { error: updateError } = await supabase
-      .from<"General Forum Comments", forum_comment>('General Forum Comments')
-      /** @TODO breaking the law */
-      // @ts-ignore
+      .from('General Forum Comments')
       .update({ likers: likers }) 
       .eq('id', comment_id)
       .single();
