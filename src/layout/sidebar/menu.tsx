@@ -25,17 +25,12 @@ const SidebarItems = () => {
           route: "/forums",
         },
         {
-          label: "Unity",
-          route: "",
-          children: [
-            { label: "Tokens", route: "/tokens" },
-            { label: "Apps", route: "/apps" },
-            { label: "Curators", route: "/curators" },
-          ]
+          label: "Tokens",
+          route: "/tokens",
         },
         {
-          label: "Development",
-          route: "/development",
+          label: "Apps",
+          route: "/apps",
         },
       ],
     },
