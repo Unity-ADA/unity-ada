@@ -1,0 +1,55 @@
+"use client";
+
+import { useState, ReactNode } from "react";
+
+import Sidebar from "./Sidebar";
+import Header from "./Header";
+import Footer from "./Footer";
+import { Toaster } from "react-hot-toast";
+
+export default function DefaultLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  //const bg_svg = `<svg xmlns='http://www.w3.org/2000/svg' width='366' height='366' viewBox='0 0 800 800' opacity='0.15'><rect fill='#0a0a0a' width='800' height='800'/><g fill='none' stroke='#a78bfa' stroke-width='1'><path d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/><path d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/><path d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/><path d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/><path d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/></g><g fill='#7c3aed'><circle cx='769' cy='229' r='5'/><circle cx='539' cy='269' r='5'/><circle cx='603' cy='493' r='5'/><circle cx='731' cy='737' r='5'/><circle cx='520' cy='660' r='5'/><circle cx='309' cy='538' r='5'/><circle cx='295' cy='764' r='5'/><circle cx='40' cy='599' r='5'/><circle cx='102' cy='382' r='5'/><circle cx='127' cy='80' r='5'/><circle cx='370' cy='105' r='5'/><circle cx='578' cy='42' r='5'/><circle cx='237' cy='261' r='5'/><circle cx='390' cy='382' r='5'/></g></svg>`;
+  const bg_svg = `<svg opacity="0.15" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 700 700" width="700" height="700"><defs><linearGradient gradientTransform="rotate(150, 0.5, 0.5)" x1="50%" y1="0%" x2="50%" y2="100%" id="ffflux-gradient"><stop stop-color="#0a0a0a" stop-opacity="1" offset="0%"></stop><stop stop-color="#8a5cf7" stop-opacity="1" offset="100%"></stop></linearGradient><filter id="ffflux-filter" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency="0.003 0.003" numOctaves="1" seed="2" stitchTiles="stitch" x="0%" y="0%" width="100%" height="100%" result="turbulence"></feTurbulence>
+  <feGaussianBlur stdDeviation="20 0" x="0%" y="0%" width="100%" height="100%" in="turbulence" edgeMode="duplicate" result="blur"></feGaussianBlur>
+  <feBlend mode="color-dodge" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" in2="blur" result="blend"></feBlend>
+  
+</filter></defs><rect width="700" height="700" fill="url(#ffflux-gradient)" filter="url(#ffflux-filter)"></rect></svg>`
+  const bg_svg_url = `url("data:image/svg+xml;utf8,${encodeURIComponent(bg_svg)}")`;
+
+  return (
+    <>
+      <div className="flex bg-neutral-950" suppressHydrationWarning={true}>
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+        <div
+          className={`relative flex flex-1 flex-col transition-all duration-300 ease-in-out`}
+          style={{
+            backgroundImage: bg_svg_url,
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            //backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+          }}
+        >
+          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+          <main className="overflow-y-auto">
+            <div className={`mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10 min-h-screen transition-all duration-300 ${sidebarOpen ? "opacity-30" : ""}`}>
+              {children}
+            </div>
+            <Toaster/>
+          </main>
+
+          <Footer />
+        </div>
+      </div>
+    </>
+  );
+}
