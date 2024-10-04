@@ -60,7 +60,7 @@ export const add_project_like = async (project_slug: string, user_address: strin
   } else {
     const { error } = await supabase
       .from('Project Likes')
-      .insert( {project_slug: info.slug, likers: updatedLikers} );
+      .insert( {project_slug: project_slug, likers: updatedLikers} );
 
     updateError = error;
   }
