@@ -19,7 +19,7 @@ const ForumSection: FC = () => {
   const [posts, set_posts] = useState<forum_post[]>();
 
   useEffect(() => {
-    if (subpage_forum === "general") {
+    if (subpage_forum === "general" || subpage_forum === "unity") {
       if (forum_cmts_db_name && forum_posts_db_name) {
         fetch_db(forum_posts_db_name, forum_cmts_db_name).then(data => set_posts(data));
       }

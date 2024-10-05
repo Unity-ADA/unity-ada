@@ -29,7 +29,7 @@ const ForumPost: FC = () => {
   const [total_post_likes, set_total_post_likes] = useState(0);
   const [total_post_comments, set_total_post_comments] = useState(0);
 
-  const known_forums = ["general"];
+  const known_forums = ["general", "unity"];
 
   useEffect(() => {
     if (known_forums.includes(page_url[0] as string)) {
