@@ -22,6 +22,7 @@ const About: FC = () => {
         pretending to be that token.
       `,
       url: "/tokens",
+      url2: "/forums/unity/1"
     },
     {
       title: "Unity Forums",
@@ -82,6 +83,9 @@ const About: FC = () => {
                 </div>
                 <div className="flex flex-wrap gap-4 justify-center py-2">
                   <Button icon={icon} text={btn_txt} size="xs" url={btn_url} class_extra={fill}/>
+                  {item.url2 && (
+                    <Button icon={'write_solid'} text={'Request'} size="xs" url={item.url2} class_extra={'fill-yellow-500'}/>
+                  )}
                 </div>
               </Card>
             </div>
